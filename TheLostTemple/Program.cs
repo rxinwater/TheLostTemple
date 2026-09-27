@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace TheLostTemple
 {
-    internal class Program
+
+    class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
+            Game game = new Game();
+            game.Start();
         }
     }
 }
