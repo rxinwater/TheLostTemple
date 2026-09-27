@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TheLostTemple
 {
-    using System;
 
-    class Room
+   public class Room
     {
         private string _name;
         private string _description;

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheLostTemple
 {
-    using System;
-    using System.Collections.Generic;
+ 
 
-    class Player
+    public class Player
     {
         private int _health;
         private int _score;
@@ -40,6 +39,10 @@ namespace TheLostTemple
         public void AddItem(string item)
         {
             _inventory.Add(item);
+        }
+        public void RemoveItem(string item)
+        {
+            _inventory.Remove(item);
         }
 
         public bool HasItem(string item)

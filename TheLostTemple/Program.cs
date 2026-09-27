@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TheLostTemple
 {
 
-    class Program
+    internal class Program
     {
         static void Main()
         {

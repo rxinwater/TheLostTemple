@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TheLostTemple
 {
-    using System;
-
-    class Game
+    
+    public class Game
     {
         private Player _player;
         private Room _entrance;
@@ -38,9 +37,7 @@ namespace TheLostTemple
             _merchant = new Merchant("Mysterious Merchant");
         }
 
-        /// <summary>
-        /// Starts the game.
-        /// </summary>
+   
         public void Start()
         {
             Console.Clear();
@@ -118,13 +115,39 @@ namespace TheLostTemple
         {
             Console.WriteLine();
             Console.WriteLine("You walk down the right path.");
-            Console.WriteLine("A trap suddenly activates!");
+            Console.WriteLine("Suddenly, the floor collapses!");
+            Console.WriteLine("You fall into a trap.");
 
             _player.ChangeHealth(-25);
 
             Console.WriteLine("You lost 25 health.");
+            Console.WriteLine();
+            Console.WriteLine("You manage to climb out of the trap.");
+            Console.WriteLine("At the end of the hallway, you see a merchant.");
 
-            _merchant.Talk();
+            Console.WriteLine();
+            Console.WriteLine("1. Talk to the merchant");
+            Console.WriteLine("2. Ignore the merchant and leave");
+
+            int choice = GetChoice(2);
+
+            if (choice == 1)
+            {
+                _merchant.Talk();
+
+                Console.WriteLine();
+                Console.WriteLine("The merchant gives you a key.");
+                _player.AddItem("Key");
+
+                Console.WriteLine("You received a Key."); //lame i know im lazy
+                Console.WriteLine("You continue walking toward the exit");
+                _player.ShowInventory();
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("You ignore the merchant and continue towards the exit.");
+            }
         }
 
         private void TreasureRoom()
@@ -148,6 +171,7 @@ namespace TheLostTemple
                     Console.WriteLine("You found the legendary treasure!");
 
                     _player.AddItem("Treasure");
+                    _player.RemoveItem("Key");
                     _player.ChangeScore(50);
                 }
                 else
@@ -180,6 +204,7 @@ namespace TheLostTemple
             {
                 Console.WriteLine("You leave the temple with the treasure.");
                 Console.WriteLine("You have completed your adventure!");
+                _player.ShowInventory();
             }
             else if (_player.GetScore() > 0)
             {
@@ -196,7 +221,7 @@ namespace TheLostTemple
             Console.WriteLine("Thanks for playing!");
         }
 
-        private int GetChoice(int maxChoice)
+        private int GetChoice(int maxChoice) //makes anything other than the max choices an invalid answer
         {
             int choice;
 
@@ -210,6 +235,7 @@ namespace TheLostTemple
                 {
                     if (choice >= 1 && choice <= maxChoice)
                     {
+                        Console.Clear();
                         return choice;
                     }
                 }
