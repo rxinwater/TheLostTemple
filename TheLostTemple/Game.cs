@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheLostTemple
 {
-    
+
+    using System;
+
     public class Game
     {
         private Player _player;
@@ -19,25 +21,13 @@ namespace TheLostTemple
         {
             _player = new Player();
 
-            _entrance = new Room(
-                "Temple Entrance",
-                "You stand in front of an ancient temple."
-            );
-
-            _hallway = new Room(
-                "Temple Hallway",
-                "You enter a dark hallway. There are two paths."
-            );
-
-            _treasureRoom = new Room(
-                "Treasure Room",
-                "You enter a large room filled with ancient treasure."
-            );
+            _entrance = new TempleEntrance();
+            _hallway = new TempleHallway();
+            _treasureRoom = new TreasureRoom();
 
             _merchant = new Merchant("Mysterious Merchant");
         }
 
-   
         public void Start()
         {
             Console.Clear();
@@ -139,9 +129,7 @@ namespace TheLostTemple
                 Console.WriteLine("The merchant gives you a key.");
                 _player.AddItem("Key");
 
-                Console.WriteLine("You received a Key."); //lame i know im lazy
-                Console.WriteLine("You continue walking toward the exit");
-                _player.ShowInventory();
+                Console.WriteLine("You received a Key.");
             }
             else
             {
@@ -153,6 +141,9 @@ namespace TheLostTemple
         private void TreasureRoom()
         {
             _treasureRoom.Enter();
+
+            Console.WriteLine();
+            _player.ShowInventory();
 
             Console.WriteLine();
             Console.WriteLine("You see a large treasure chest.");
@@ -171,7 +162,6 @@ namespace TheLostTemple
                     Console.WriteLine("You found the legendary treasure!");
 
                     _player.AddItem("Treasure");
-                    _player.RemoveItem("Key");
                     _player.ChangeScore(50);
                 }
                 else
@@ -198,13 +188,13 @@ namespace TheLostTemple
             Console.WriteLine("=================================");
 
             _player.ShowStatus();
+
             Console.WriteLine();
 
             if (_player.GetScore() >= 50)
             {
                 Console.WriteLine("You leave the temple with the treasure.");
                 Console.WriteLine("You have completed your adventure!");
-                _player.ShowInventory();
             }
             else if (_player.GetScore() > 0)
             {
@@ -221,7 +211,7 @@ namespace TheLostTemple
             Console.WriteLine("Thanks for playing!");
         }
 
-        private int GetChoice(int maxChoice) //makes anything other than the max choices an invalid answer
+        private int GetChoice(int maxChoice)
         {
             int choice;
 

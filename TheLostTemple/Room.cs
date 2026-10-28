@@ -7,22 +7,18 @@ using System.Threading.Tasks;
 namespace TheLostTemple
 {
 
-   public class Room
+    public abstract class Room
     {
-        private string _name;
-        private string _description;
+        protected string _name;
+     
 
-        public Room(string name, string description)
+        public Room(string name)
         {
             _name = name;
-            _description = description;
         }
-        
-        public void Enter() /// Displays the room's name and description.
-        {
-            Console.WriteLine();
-            Console.WriteLine("=== " + _name + " ===");
-            Console.WriteLine(_description);
-        }
+
+     
+        public abstract void Enter();
+
     }
 }
