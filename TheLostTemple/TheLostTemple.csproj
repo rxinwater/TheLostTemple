@@ -44,11 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="LeftPathRoom.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Merchant.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RightPathRoom.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="TempleEntrance.cs" />
     <Compile Include="TempleHallway.cs" />

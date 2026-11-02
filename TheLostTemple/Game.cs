@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace TheLostTemple
 {
-
-    using System;
-
     public class Game
     {
         private Player _player;
         private Room _entrance;
         private Room _hallway;
+        private Room _leftPath;
+        private Room _rightPath;
         private Room _treasureRoom;
         private Merchant _merchant;
 
         public Game()
         {
             _player = new Player();
+            _merchant = new Merchant("Mysterious Merchant");
 
             _entrance = new TempleEntrance();
             _hallway = new TempleHallway();
-            _treasureRoom = new TreasureRoom();
-
-            _merchant = new Merchant("Mysterious Merchant");
+            _leftPath = new LeftPathRoom(_player);
+            _rightPath = new RightPathRoom(_player, _merchant);
+            _treasureRoom = new TreasureRoom(_player);
         }
 
         public void Start()
@@ -55,7 +55,7 @@ namespace TheLostTemple
             Console.WriteLine("1. Enter the temple");
             Console.WriteLine("2. Leave");
 
-            int choice = GetChoice(2);
+            int choice = Input.GetChoice(2);
 
             if (choice == 1)
             {
@@ -74,109 +74,18 @@ namespace TheLostTemple
             Console.WriteLine("1. Take the left path");
             Console.WriteLine("2. Take the right path");
 
-            int choice = GetChoice(2);
+            int choice = Input.GetChoice(2);
 
             if (choice == 1)
             {
-                LeftPath();
+                _leftPath.Enter();
             }
             else
             {
-                RightPath();
+                _rightPath.Enter();
             }
 
-            TreasureRoom();
-        }
-
-        private void LeftPath()
-        {
-            Console.WriteLine();
-            Console.WriteLine("You walk down the left path.");
-            Console.WriteLine("You find an old key on the ground.");
-
-            _player.AddItem("Key");
-            _player.ChangeScore(10);
-
-            Console.WriteLine("You picked up the Key.");
-            Console.WriteLine("Score +10");
-        }
-
-        private void RightPath()
-        {
-            Console.WriteLine();
-            Console.WriteLine("You walk down the right path.");
-            Console.WriteLine("Suddenly, the floor collapses!");
-            Console.WriteLine("You fall into a trap.");
-
-            _player.ChangeHealth(-25);
-
-            Console.WriteLine("You lost 25 health.");
-            Console.WriteLine();
-            Console.WriteLine("You manage to climb out of the trap.");
-            Console.WriteLine("At the end of the hallway, you see a merchant.");
-
-            Console.WriteLine();
-            Console.WriteLine("1. Talk to the merchant");
-            Console.WriteLine("2. Ignore the merchant and leave");
-
-            int choice = GetChoice(2);
-
-            if (choice == 1)
-            {
-                _merchant.Talk();
-
-                Console.WriteLine();
-                Console.WriteLine("The merchant gives you a key.");
-                _player.AddItem("Key");
-
-                Console.WriteLine("You received a Key.");
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("You ignore the merchant and continue towards the exit.");
-            }
-        }
-
-        private void TreasureRoom()
-        {
             _treasureRoom.Enter();
-
-            Console.WriteLine();
-            _player.ShowInventory();
-
-            Console.WriteLine();
-            Console.WriteLine("You see a large treasure chest.");
-            Console.WriteLine();
-            Console.WriteLine("1. Open the chest");
-            Console.WriteLine("2. Leave the treasure");
-
-            int choice = GetChoice(2);
-
-            if (choice == 1)
-            {
-                if (_player.HasItem("Key"))
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("You use the key to open the chest.");
-                    Console.WriteLine("You found the legendary treasure!");
-
-                    _player.AddItem("Treasure");
-                    _player.ChangeScore(50);
-                }
-                else
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("The chest is locked.");
-                    Console.WriteLine("You don't have a key.");
-                }
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("You decide not to take the treasure.");
-            }
-
             ShowEnding();
         }
 
@@ -209,29 +118,6 @@ namespace TheLostTemple
 
             Console.WriteLine();
             Console.WriteLine("Thanks for playing!");
-        }
-
-        private int GetChoice(int maxChoice)
-        {
-            int choice;
-
-            while (true)
-            {
-                Console.Write("Choice: ");
-
-                string input = Console.ReadLine();
-
-                if (int.TryParse(input, out choice))
-                {
-                    if (choice >= 1 && choice <= maxChoice)
-                    {
-                        Console.Clear();
-                        return choice;
-                    }
-                }
-
-                Console.WriteLine("Invalid choice. Please try again.");
-            }
         }
     }
 }
